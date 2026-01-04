@@ -117,10 +117,58 @@ def context(browser):
     yield context
     context.close()
 
+'''
+# test_basic.py
+import pytest
+from playwright.sync_api import BrowserContext, Page
 
+def test_open_google(context: BrowserContext):
+    """测试打开 Google"""
+    page = context.new_page()
+    page.goto("https://www.google.com")
+    assert "Google" in page.title()
+    # 测试结束，自动调用 context.close()
+
+def test_open_github(context: BrowserContext):
+    """测试打开 GitHub"""
+    page = context.new_page()
+    page.goto("https://github.com")
+    assert "GitHub" in page.title()
+    # 这是新的测试，会创建新的 context
+'''
+
+'''
+def test_multiple_pages(context: BrowserContext):
+    """在一个 context 中使用多个页面"""
+    # 创建第一个页面
+    page1 = context.new_page()
+    page1.goto("https://example.com")
+    
+    # 创建第二个页面（共享同一个 context）
+    page2 = context.new_page()
+    page2.goto("https://google.com")
+    
+    # 两个页面共享 cookies、localStorage 等
+    # 因为它们属于同一个 BrowserContext
+    
+    # 验证两个页面都正常打开
+    assert "Example" in page1.title()
+    assert "Google" in page2.title()
+'''
 @pytest.fixture(scope="function")
 def page(context):
     """为每个测试创建独立的页面"""
     page = context.new_page()
     yield page
     page.close()            
+
+@pytest.fixture
+def logged_in_page(page: Page):
+    """返回已登录的页面"""
+    page.goto("https://example.com/login")
+    page.fill("#username", "test_user")
+    page.fill("#password", "test_pass")
+    page.click("#login")
+    page.wait_for_url("**/dashboard")
+    return page
+
