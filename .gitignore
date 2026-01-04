@@ -1,0 +1,38 @@
+# Python virtual environment
+venv/
+env/
+*.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+.pytest_cache/
+__pycache__/
+*.pyc
+
+# Playwright
+playwright-report/
+test-results/
+
+# Logs
+logs/
+*.log
+
+# Coverage
+.coverage
+coverage.xml
+htmlcov/
+
+# Build
+build/
+dist/
+*.egg-info/
+MANIFEST
